@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Api;
 //import model Post
 use App\Models\Post;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 //import resource PostResource
-use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+
+//import Http request
+use Illuminate\Http\Request;
+
+//import facade Validator
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
-{    
+{
     /**
      * index
      *
@@ -27,7 +31,6 @@ class PostController extends Controller
         //return collection of posts as a resource
         return new PostResource(true, 'List Data Posts', $posts);
     }
-
 
     /**
      * store
