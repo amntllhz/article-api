@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+//import model Post
 use App\Models\Post;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
+
+//import resource PostResource
 use App\Http\Resources\PostResource;
 
 class PostController extends Controller
-{
-    //
-
+{    
     /**
      * index
      *

@@ -20,7 +20,6 @@ class PostResource extends JsonResource
      * @param  mixed $resource
      * @return void
      */
-
     public function __construct($status, $message, $resource)
     {
         parent::__construct($resource);
@@ -28,6 +27,12 @@ class PostResource extends JsonResource
         $this->message = $message;
     }
 
+    /**
+     * toArray
+     *
+     * @param  mixed $request
+     * @return array
+     */
     public function toArray(Request $request): array
     {
         return [

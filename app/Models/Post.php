@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    //
-
     use HasFactory;
 
     /**
@@ -17,11 +15,10 @@ class Post extends Model
      *
      * @var array
      */
-    
     protected $fillable = [
+        'image',
         'title',
         'content',
-        'image',
     ];
 
     /**
@@ -36,4 +33,3 @@ class Post extends Model
         );
     }
 }
-
