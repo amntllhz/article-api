@@ -14,8 +14,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 
 //import facade Validator
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+//import facade Storage
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
