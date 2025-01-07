@@ -1,0 +1,522 @@
+openapi: 3.0.0
+info:
+  title: Article API Documentation
+  description: >-
+    Dokumentasi ini merupakan dokumentasi dari RESTful API yang dirancang untuk
+    mengelola artikel dengan fitur CRUD (Create, Read, Update, Delete) yang
+    terhubung ke database. API ini memungkinkan pengguna untuk melakukan operasi
+    seperti menambahkan artikel baru, membaca daftar artikel, mengupdate artikel
+    yang sudah ada, dan menghapus artikel. Selain itu, API ini juga mendukung
+    pengelolaan kategori artikel melalui relasi antara tabel posts dan
+    categories, sehingga artikel dapat diorganisasikan berdasarkan kategori.
+    Dokumentasi ini dibuat menggunakan Swagger untuk memberikan spesifikasi yang
+    jelas dan memudahkan integrasi dengan aplikasi lain.
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000
+components:
+  securitySchemes:
+    apikeyAuth:
+      type: http
+      scheme: apikey
+security:
+  - apikeyAuth: []
+tags:
+  - name: Article-API
+    description: >-
+      **Article API** 
+      
+      adalah sebuah RESTful API yang dirancang untuk mendukung
+      pengelolaan artikel secara terstruktur. API ini menyediakan fitur utama
+      seperti pembuatan (create), pembacaan (read), pembaruan (update), dan
+      penghapusan (delete) artikel yang tersimpan dalam database. Dengan adanya
+      relasi antara tabel `posts` dan `categories`, Article API juga
+      memungkinkan artikel diorganisasikan berdasarkan kategori tertentu. API
+      ini cocok digunakan untuk mendukung aplikasi web atau mobile yang
+      membutuhkan akses ke konten artikel secara dinamis. Selain itu, Article
+      API dirancang dengan spesifikasi yang mudah dipahami, sehingga memudahkan
+      pengembang untuk melakukan integrasi ke berbagai platform.
+paths:
+  /api/posts:
+    get:
+      tags:
+        - Article-API
+      summary: Get Data
+      description: >-
+        # Get Posts
+
+
+        **GET /posts** endpoint digunakan untuk mengambil daftar artikel yang
+        tersedia di database. Endpoint ini mendukung pengambilan semua data
+        artikel beserta detailnya, termasuk informasi seperti judul, konten, dan
+        kategori yang terkait. Data dikembalikan dalam format JSON untuk
+        memudahkan integrasi dengan aplikasi klien. Pengguna juga dapat
+        menerapkan parameter opsional, seperti pencarian atau pengurutan
+        berdasarkan atribut tertentu, untuk memfilter atau menyusun data sesuai
+        kebutuhan. Endpoint ini bertujuan memberikan akses cepat dan mudah
+        terhadap informasi artikel yang disimpan di sistem.
+
+
+        ## Request
+
+
+        ### HTTP Request
+
+
+        ``` http
+
+        GET http://127.0.0.1:8000/api/posts
+
+         ```
+
+
+        ## Response
+
+
+        - Status: 200
+            
+        - Content-Type: application/json
+            
+
+        ``` json
+
+        {
+            "success":true,
+            "message":"",
+            "data":{
+                "current_page":0,
+                "data":[],
+                "first_page_url":"",
+                "from":null,
+                "last_page":0,
+                "last_page_url":"",
+                "links":[{"url":null,"label":"","active":true}],
+                "next_page_url":null,
+                "path":"",
+                "per_page":0,
+                "prev_page_url":null,
+                "to":null,
+                "total":0
+            }
+        }
+
+         ```
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Successful Response
+                  value:
+                    collection:
+                      info:
+                        name: Test Collection
+                        description: >-
+                          This is a test collection that makes a tiny request to
+                          Postman Echo service to get the list of request
+                          headers sent by a HTTP client.
+                        _postman_id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+                        schema: >-
+                          https://schema.getpostman.com/json/collection/v2.0.0/collection.json
+                        updatedAt: '2022-06-16T20:21:13.000Z'
+                        fork:
+                          label: Test Fork
+                          createdAt: '2022-06-16T19:51:44.069Z'
+                          from: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+                      item:
+                        - name: Test GET Response
+                          id: 82ee981b-e19f-962a-401e-ea34ebfb4848
+                          event:
+                            - listen: test
+                              script:
+                                id: 7d2334fc-a84a-4c3d-b26c-7529afa4c0ae
+                                exec:
+                                  - pm.test("Status code is 200", function () {
+                                  - '    pm.response.to.have.status(200);'
+                                  - '});'
+                                type: text/javascript
+                          request:
+                            url: https://echo.getpostman.com/headers
+                            method: GET
+                            header:
+                              - key: Content-Type
+                                value: application/json
+                          response: []
+                example-1:
+                  summary: Get Collection with Access Token
+                  value:
+                    collection:
+                      info:
+                        name: Test Collection
+                        description: >-
+                          This is a test collection that makes a tiny request to
+                          Postman Echo service to get the list of request
+                          headers sent by a HTTP client.
+                        _postman_id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+                        schema: >-
+                          https://schema.getpostman.com/json/collection/v2.0.0/collection.json
+                        updatedAt: '2022-06-16T20:21:13.000Z'
+                        fork:
+                          label: Test Fork
+                          createdAt: '2022-06-16T19:51:44.069Z'
+                          from: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+                      item:
+                        - name: Test GET Response
+                          id: 82ee981b-e19f-962a-401e-ea34ebfb4848
+                          event:
+                            - listen: test
+                              script:
+                                id: 7d2334fc-a84a-4c3d-b26c-7529afa4c0ae
+                                exec:
+                                  - pm.test("Status code is 200", function () {
+                                  - '    pm.response.to.have.status(200);'
+                                  - '});'
+                                type: text/javascript
+                          request:
+                            url: https://echo.getpostman.com/headers
+                            method: GET
+                            header:
+                              - key: Content-Type
+                                value: application/json
+                          response: []
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error:
+                  name: instanceNotFoundError
+                  message: We could not find the collection you are looking for
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: rateLimited
+                message: Rate limit exceeded. Please retry after 1669048687
+    post:
+      tags:
+        - Article-API
+      summary: Insert Data
+      description: >-
+        **POST /posts** adalah endpoint yang digunakan untuk menambahkan artikel
+        baru ke dalam sistem. Melalui endpoint ini, pengguna dapat mengirimkan
+        data artikel, seperti judul, konten, dan kategori, dalam format JSON.
+        Artikel yang dikirim akan disimpan dalam database dan secara otomatis
+        terhubung ke kategori yang dipilih. Data yang diperlukan untuk request
+        ini meliputi parameter wajib seperti `title`, `content`, dan
+        `category_id`. Setelah berhasil, respons dari server akan memberikan
+        informasi mengenai artikel yang baru saja ditambahkan, termasuk ID
+        artikel dan status penginputannya. Endpoint ini memungkinkan aplikasi
+        untuk secara dinamis menambahkan konten baru ke dalam sistem.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                  example: Pentingnya Asupan Gizi Bagi Balita
+                content:
+                  type: string
+                  example: >-
+                    Asupan gizi yang baik dan seimbang sangat penting bagi
+                    balita karena berperan dalam pertumbuhan dan perkembangan
+                    mereka yang pesat. Gizi yang memadai dapat membantu
+                    membentuk fondasi kesehatan seumur hidup, seperti: Sistem
+                    kekebalan tubuh yang kuat, Perkembangan otak yang optimal,
+                    Kesehatan tulang yang baik, Tingkat intelektualitas dan
+                    kecerdasan.
+                category_id:
+                  type: integer
+                  example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Successful Response
+                  value:
+                    collections:
+                      - id: dac5eac9-148d-a32e-b76b-3edee9da28f7
+                        name: Cloud API
+                        owner: '12345678'
+                        createdAt: '2022-04-12T10:29:46.000Z'
+                        updatedAt: '2022-04-12T10:29:56.000Z'
+                        uid: 12345678-dac5eac9-148d-a32e-b76b-3edee9da28f7
+                        isPublic: true
+                      - id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+                        name: Test Collection
+                        owner: '12345678'
+                        createdAt: '2022-01-13T10:21:46.000Z'
+                        updatedAt: '2022-02-12T11:29:56.000Z'
+                        uid: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+                        isPublic: false
+                        fork:
+                          label: Test Fork
+                          createdAt: '2022-06-16T19:51:44.069Z'
+                          from: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+                      - id: f695cab7-6878-eb55-7943-ad88e1ccfd65
+                        name: Postman Echo
+                        owner: '12345678'
+                        createdAt: '2021-04-11T09:18:26.000Z'
+                        updatedAt: '2022-05-01T15:29:32.000Z'
+                        uid: 12345678-f695cab7-6878-eb55-7943-ad88e1ccfd65
+                        isPublic: true
+                example-1:
+                  summary: Filter by Workspace
+                  value:
+                    collections:
+                      - id: dac5eac9-148d-a32e-b76b-3edee9da28f7
+                        name: Cloud API
+                        owner: '12345678'
+                        createdAt: '2022-04-12T10:29:46.000Z'
+                        updatedAt: '2022-04-12T10:29:56.000Z'
+                        uid: 12345678-dac5eac9-148d-a32e-b76b-3edee9da28f7
+                        isPublic: true
+        '429':
+          description: Too Many Requests
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: rateLimited
+                message: Rate limit exceeded. Please retry after 1669048687
+  /api/posts/5:
+    post:
+      tags:
+        - Article-API
+      summary: Update Data
+      description: >-
+        **POST /posts/{id}** (dengan metode `PUT` melalui `_method`) adalah
+        endpoint yang digunakan untuk memperbarui data artikel yang sudah ada di
+        sistem. Meskipun menggunakan metode `POST`, request ini mengirimkan
+        parameter `_method` dengan nilai `PUT` untuk menunjukkan bahwa operasi
+        yang dilakukan adalah pembaruan data (update). Pada form data, pengguna
+        mengirimkan data artikel yang ingin diperbarui, seperti `title`,
+        `content`, dan `category_id`, dengan menyertakan ID artikel yang akan
+        diubah. Setelah request diterima, server akan memvalidasi dan
+        memperbarui artikel yang sesuai dengan ID tersebut. Respons dari server
+        akan mengonfirmasi keberhasilan pembaruan dengan mengembalikan data
+        artikel yang telah diperbarui, termasuk status dan informasi terbaru
+        dari artikel tersebut. Endpoint ini memungkinkan aplikasi untuk mengedit
+        artikel yang sudah ada tanpa perlu membuat artikel baru.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                title:
+                  type: string
+                  example: Manfaat Buah-buahan Bagi Kesehatan Balita
+                content:
+                  type: string
+                  example: >-
+                    Sayuran dan buah menyediakan vitamin penting seperti vitamin
+                    C dan asam folat . Sayuran dan buah juga mengandung zat
+                    tanaman lain yang dianggap penting untuk membantu mengurangi
+                    risiko beberapa jenis kanker dan penyakit jantung.
+                category_id:
+                  type: integer
+                  example: '1'
+                _method:
+                  type: string
+                  example: PUT
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                collection:
+                  id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+                  name: Test Collection
+                  uid: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Malformed Request
+                  value:
+                    error:
+                      name: malformedRequestError
+                      message: Found 2 errors with the supplied collection.
+                      details:
+                        - ': must have required property ''item'''
+                        - 'info: must have required property ''schema'''
+                example-1:
+                  summary: Collection ID Mismatch
+                  value:
+                    error:
+                      name: collectionMismatchError
+                      message: >-
+                        The collection ID in the path does not match the
+                        collection ID in the request body.
+        '403':
+          description: Forbidden
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error:
+                  name: forbiddenError
+                  message: You do not have enough permissions to perform this action.
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error:
+                  name: instanceNotFoundError
+                  message: The specified item does not exist.
+                  details:
+                    item: collection
+                    id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+        '429':
+          description: Too Many Requests
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: rateLimited
+                message: Rate limit exceeded. Please retry after 1669048687
+    delete:
+      tags:
+        - Article-API
+      summary: Delete Data
+      description: >-
+        **DELETE /posts/{id}** adalah endpoint yang digunakan untuk menghapus
+        artikel yang sudah ada di dalam sistem. Pengguna dapat mengirimkan
+        request dengan metode `DELETE` ke URL yang menyertakan ID artikel yang
+        ingin dihapus, seperti `/posts/1` untuk menghapus artikel dengan ID 1.
+        Setelah request diterima, server akan memvalidasi apakah artikel dengan
+        ID tersebut ada dalam database dan kemudian menghapusnya. Jika
+        penghapusan berhasil, server akan mengirimkan respons yang mengonfirmasi
+        bahwa artikel telah dihapus, biasanya berupa status kode 200 OK atau 204
+        No Content. Endpoint ini memungkinkan aplikasi untuk mengelola dan
+        menghapus artikel yang tidak lagi diperlukan, memastikan data tetap
+        terorganisir dengan baik.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                collection:
+                  id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+                  uid: 12345678-12ece9e1-2abf-4edc-8e34-de66e74114d2
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error:
+                  name: instanceNotFoundError
+                  message: The specified item does not exist.
+                  details:
+                    item: collection
+                    id: 12ece9e1-2abf-4edc-8e34-de66e74114d2
+        '429':
+          description: Too Many Requests
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: rateLimited
+                message: Rate limit exceeded. Please retry after 1669048687
