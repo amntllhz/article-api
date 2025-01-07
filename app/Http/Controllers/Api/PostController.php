@@ -28,8 +28,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //get all posts
-        $posts = Post::latest()->paginate(5);
+        //get all posts with their categories
+        $posts = Post::with('category')->latest()->paginate(5);
 
         //return collection of posts as a resource
         return new PostResource(true, 'List Data Posts', $posts);
@@ -48,6 +48,7 @@ class PostController extends Controller
             'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title'     => 'required',
             'content'   => 'required',
+            'category_id'   => 'nullable|exists:categories,id', // Validasi category_id
         ]);
 
         //check if validation fails
@@ -64,6 +65,7 @@ class PostController extends Controller
             'image'     => $image->hashName(),
             'title'     => $request->title,
             'content'   => $request->content,
+            'category_id' => $request->category_id, // Menyimpan category_id
         ]);
 
         //return response
@@ -78,8 +80,13 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //find post by ID
-        $post = Post::find($id);
+        //find post by ID and load category
+        $post = Post::with('category')->find($id);
+
+        //check if post exists
+        if (!$post) {
+            return response()->json(['message' => 'Data Post Tidak Ditemukan'], 404);
+        }
 
         //return single post as a resource
         return new PostResource(true, 'Detail Data Post!', $post);
@@ -96,8 +103,9 @@ class PostController extends Controller
     {
         //define validation rules
         $validator = Validator::make($request->all(), [
-            'title'     => 'required',
-            'content'   => 'required',
+            'title'       => 'required',
+            'content'     => 'required',
+            'category_id' => 'nullable|exists:categories,id', // Validasi category_id
         ]);
 
         //check if validation fails
@@ -107,6 +115,10 @@ class PostController extends Controller
 
         //find post by ID
         $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json(['message' => 'Data Post Tidak Ditemukan'], 404);
+        }
 
         //check if image is not empty
         if ($request->hasFile('image')) {
@@ -120,16 +132,18 @@ class PostController extends Controller
 
             //update post with new image
             $post->update([
-                'image'     => $image->hashName(),
-                'title'     => $request->title,
-                'content'   => $request->content,
+                'image'       => $image->hashName(),
+                'title'       => $request->title,
+                'content'     => $request->content,
+                'category_id' => $request->category_id, // Update category_id
             ]);
         } else {
 
             //update post without image
             $post->update([
-                'title'     => $request->title,
-                'content'   => $request->content,
+                'title'       => $request->title,
+                'content'     => $request->content,
+                'category_id' => $request->category_id, // Update category_id
             ]);
         }
 

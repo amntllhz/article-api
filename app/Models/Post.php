@@ -19,6 +19,7 @@ class Post extends Model
         'image',
         'title',
         'content',
+        'category_id',
     ];
 
     /**
@@ -31,5 +32,13 @@ class Post extends Model
         return Attribute::make(
             get: fn ($image) => url('/storage/posts/' . $image),
         );
+    }
+
+    /**
+     * Relasi ke kategori
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
