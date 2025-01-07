@@ -1,4 +1,4 @@
-<h1 align="left">Article API Laravel With Documentation</h1>
+<h1 align="center">Article API Laravel With Documentation</h1>
 
 ###
 
